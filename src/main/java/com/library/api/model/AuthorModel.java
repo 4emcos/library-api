@@ -11,8 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Author
@@ -20,9 +21,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "author")
-@NoArgsConstructor
 @Data
-public class Author {
+public class AuthorModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -46,7 +46,8 @@ public class Author {
     // @JoinColumn(name = "author_id")
     // private Author parent;
 
-    @OneToMany
-    private List<Book> books;
+    @JsonManagedReference
+    @OneToMany(cascade = javax.persistence.CascadeType.ALL, mappedBy = "author", fetch = javax.persistence.FetchType.LAZY)
+    private List<BookModel> books;
 
 }
